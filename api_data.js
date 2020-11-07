@@ -461,7 +461,7 @@ define({ "api": [
   {
     "type": "POST",
     "url": "/bbs/query_between",
-    "title": "查询某一个区间",
+    "title": "查询BBS列表区间",
     "group": "BBS",
     "description": "<p>1.比如时间26号--27号的，评论数量 2-8的</p>",
     "parameter": {
@@ -549,7 +549,7 @@ define({ "api": [
   {
     "type": "POST",
     "url": "/bbs/query_page",
-    "title": "分页查询",
+    "title": "分页查询BBS",
     "group": "BBS",
     "description": "<p>1.一个关键字匹配多个字段 2.多个条件字段，且关系查询 3.多个条件字段，或关系查询 4.相关字段帖子字段有 title,content,id,bbs_desc,update_time,create_time 5.如果是关键字搜索，就不要设置多条件查询 multiple_condition = false 6.如果是多条件模糊搜索，则设置 obj_condition={...}  multiple_condition = ture</p>",
     "parameter": {
@@ -1000,7 +1000,7 @@ define({ "api": [
   {
     "type": "POST",
     "url": "/blog/query_between",
-    "title": "查询某一个区间",
+    "title": "查询博客列表区间",
     "group": "Blog",
     "description": "<p>1.比如时间26号--27号的，评论数量 2-8的</p>",
     "parameter": {
@@ -1088,7 +1088,7 @@ define({ "api": [
   {
     "type": "POST",
     "url": "/blog/query_page",
-    "title": "分页查询",
+    "title": "分页查询博客",
     "group": "Blog",
     "description": "<p>1.一个关键字匹配多个字段 2.多个条件字段，且关系查询 3.多个条件字段，或关系查询 4.相关字段博客字段有 title,content,id,blog_desc,update_time,create_time 5.如果是关键字搜索，就不要设置多条件查询 multiple_condition = false 6.如果是多条件模糊搜索，则设置 obj_condition={...}  multiple_condition = ture</p>",
     "parameter": {
@@ -1240,6 +1240,105 @@ define({ "api": [
     "filename": "src/route/blog.js",
     "groupTitle": "Blog",
     "name": "PostBlogUpdate",
+    "success": {
+      "examples": [
+        {
+          "title": "请求成功响应:",
+          "content": "{\n  \"success\": \"true\",\n  \"results\": \"\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "请求失败响应:",
+          "content": "{\n  \"success\": \"false\",\n  \"results\": \"\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "POST",
+    "url": "/comment/query_page",
+    "title": "分页查询评论",
+    "group": "Comment",
+    "description": "<p>1.相关字段有 &quot;id&quot;, &quot;content&quot;, &quot;update_time&quot;, &quot;creator&quot;,&quot;comment_target_id&quot;, &quot;parent_id&quot;</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "size",
+            "defaultValue": "10",
+            "description": "<p>页码大小，默认10</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "orderBy",
+            "description": "<p>以哪一个字段排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "fields",
+            "description": "<p>要查询的字段,默认查询id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "obj_condition",
+            "description": "<p>多个查询条件</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "false",
+            "optional": false,
+            "field": "is_or",
+            "defaultValue": "false",
+            "description": "<p>传固定值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "true",
+            "optional": false,
+            "field": "multiple_condition",
+            "defaultValue": "true",
+            "description": "<p>传固定值</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example1",
+          "content": "查询 指定 bbs 的评论 type=2\n{\n\"page\":1,\n\"size\":10,\n\"is_or\":false\",\n\"multiple_condition\":true,\n\"fields\": [\"id\", \"content\", \"update_time\", \"creator\",\"comment_target_id\", \"parent_id\"],\n\"obj_condition\":{\n  comment_target_id: bbs_id ,\n  type: 2\n }\n}",
+          "type": "json"
+        },
+        {
+          "title": "Request-Example2",
+          "content": "查询 指定 博客 的评论 type=1\n{\n\"page\":1,\n\"size\":10,\n\"is_or\":false\",\n\"multiple_condition\":true,\n\"fields\": [\"id\", \"content\", \"update_time\", \"creator\",\"comment_target_id\", \"parent_id\"],\n\"obj_condition\":{\n  comment_target_id: blog_id ,\n  type: 1\n }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/route/comment.js",
+    "groupTitle": "Comment",
+    "name": "PostCommentQuery_page",
     "success": {
       "examples": [
         {
