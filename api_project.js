@@ -4,7 +4,7 @@ define({
   "title": "NPress-api",
   "header": {
     "title": "接口文档说明",
-    "content": "<h2>接口文档</h2>\n<h2>baseUrl：http://47.100.13.168:8112</h2>\n<p>更多接口持续更新中</p>\n"
+    "content": "<h2>接口文档</h2>\n<h2>baseUrl：http://47.100.13.168:8114</h2>\n<p>更多接口持续更新中</p>\n"
   },
   "footer": {
     "title": "文档结尾",
@@ -16,7 +16,7 @@ define({
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2020-11-14T01:50:58.699Z",
+    "time": "2020-11-14T02:30:06.983Z",
     "url": "https://apidocjs.com",
     "version": "0.25.0"
   }
