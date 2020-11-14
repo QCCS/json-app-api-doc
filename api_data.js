@@ -1214,7 +1214,7 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
             "field": "fields",
             "description": "<p>要更新的字段内容</p>"
@@ -1359,6 +1359,148 @@ define({ "api": [
     }
   },
   {
+    "type": "Post",
+    "url": "/file/query_page",
+    "title": "查询上传的图片",
+    "version": "1.0.0",
+    "group": "File",
+    "description": "<p>1.相关字段有 &quot;url&quot;, &quot;file_name&quot;, &quot;real_name&quot;, &quot;is_public&quot;,&quot;type&quot;</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "size",
+            "defaultValue": "10",
+            "description": "<p>页码大小，默认10</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "fields",
+            "description": "<p>要查询的字段,默认查询id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "obj_condition",
+            "description": "<p>多个查询条件</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "false",
+            "optional": false,
+            "field": "is_or",
+            "defaultValue": "false",
+            "description": "<p>传固定值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "true",
+            "optional": false,
+            "field": "multiple_condition",
+            "defaultValue": "true",
+            "description": "<p>传固定值</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example1",
+          "content": "{\n\"page\":0,\n\"size\":10,\n\"is_or\":false,\n\"multiple_condition\":true,\n\"fields\": [\"url\", \"file_name\", \"real_name\", \"is_public\",\"type\"],\n\"obj_condition\":{\n   \"user_id\": 295\n }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/route/file.js",
+    "groupTitle": "File",
+    "name": "PostFileQuery_page",
+    "success": {
+      "examples": [
+        {
+          "title": "请求成功响应:",
+          "content": "{\n  \"success\": \"true\",\n  \"results\": \"\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "请求失败响应:",
+          "content": "{\n  \"success\": \"false\",\n  \"results\": \"\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "Post",
+    "url": "/file/upload",
+    "title": "文件上传",
+    "version": "1.0.0",
+    "group": "File",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Butter",
+            "optional": false,
+            "field": "file",
+            "description": "<p>文件,图片，视频，压缩包等</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "0|1",
+            "optional": false,
+            "field": "is_public",
+            "description": "<p>1代表公开,默认0</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example1",
+          "content": "{\n  \"file\": \"\",\n  \"is_public\": \"0\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Response-Example",
+          "content": "{\n  \"success\": \"true\",\n  \"results\": {\n   \"origin\": \"450-450.png\",\n   \"url\": \"/1604841514221.png\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response-Example",
+          "content": "{\n  \"success\": \"false\",\n  \"results\": \"上传失败\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/route/file.js",
+    "groupTitle": "File",
+    "name": "PostFileUpload"
+  },
+  {
     "type": "post",
     "url": "/user_detail/update",
     "title": "修改密码",
@@ -1368,38 +1510,24 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Object",
             "optional": false,
-            "field": "title",
-            "description": "<p>帖子名</p>"
+            "field": "fields",
+            "description": "<p>修改的实体</p>"
           },
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Object",
             "optional": false,
-            "field": "bbs_desc",
-            "description": "<p>帖子描述</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "content",
-            "description": "<p>帖子内容</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "cover_url",
-            "description": "<p>封面</p>"
+            "field": "condition",
+            "description": "<p>实体的限制条件</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Request-Example",
-          "content": "{\n fields:[\n   \"email\": \"123@qq.com\",\n   \"password\":\"mac123@1\"\n ] ,\n condition:[\n    id:23\n ]\n}",
+          "content": "{\n fields:{\n   \"email\": \"123@qq.com\",\n   \"password\":\"mac123@1\"\n } ,\n condition:{\n   id:23\n }\n}",
           "type": "json"
         },
         {
